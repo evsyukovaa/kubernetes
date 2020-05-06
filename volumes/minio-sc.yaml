@@ -4,7 +4,8 @@ metadata:
   name: standard
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
-provisioner: kubernetes.io/pv
+provisioner: kubernetes.io/no-provisioner
 parameters:
   type: s3
+  fsType: ext4
 reclaimPolicy: Retain
