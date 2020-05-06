@@ -5,3 +5,4 @@ kubectl exec -it hello bash
 kubectl logs hello
 kubectl port-forward hello 1234:80
 kubectl label node k8s-node2 node-role.kubernetes.io/worker=
+kubectl label node k8s-node2 node-role.kubernetes.io/worker- #delete label
