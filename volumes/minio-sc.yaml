@@ -5,3 +5,6 @@ metadata:
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: kubernetes.io/pv
+parameters:
+  type: s3
+reclaimPolicy: Retain
