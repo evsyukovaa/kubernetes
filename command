@@ -27,3 +27,19 @@ openssl x509 -req -sha256 -days 365 -in dashboard.csr -signkey dashboard.key -ou
 kubectl -n kube-system create secret generic kubernetes-dashboard-certs --from-file=$HOME/certs
 kubectl -n kubernetes-dashboard edit service kubernetes-dashboard #type изменить на LoadBalancer
 kubectl -n kubernetes-dashboard describe secrets $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}') # узнать токен для admin-user
+
+########################################################
+# установка ceph cluster with Rook
+########################################################
+для начала нужно создать 3 worker ноды и создать на них разделы смонтированные в /data
+https://itnext.io/deploy-a-ceph-cluster-on-kubernetes-with-rook-d75a20c3f5b1
+git clone https://github.com/rook/rook.git
+cd rook
+git checkout release-1.2
+cd cluster/examples/kubernetes/ceph
+kubectl create -f common.yaml
+kubectl create -f operator.yaml
+kubectl get pod -n rook-ceph
+kubectl apply -f cluster.yaml # поправить dataDirHostPath: /data
+kubectl apply -f .storageclass.yaml
+kubectl get sc
