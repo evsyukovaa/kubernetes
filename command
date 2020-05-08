@@ -43,3 +43,4 @@ kubectl get pod -n rook-ceph
 kubectl apply -f cluster.yaml # поправить dataDirHostPath: /data
 kubectl apply -f .storageclass.yaml
 kubectl get sc
+kubectl apply -f dashboard.yaml # дашбоард Ceph через LB 
