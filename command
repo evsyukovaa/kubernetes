@@ -6,6 +6,15 @@ kubectl logs hello
 kubectl port-forward hello 1234:80
 kubectl label node k8s-node2 node-role.kubernetes.io/worker= #add label node
 kubectl label node k8s-node2 node-role.kubernetes.io/worker- #delete label
+kubectl get po -L creation_method,env # посмотреть labels
+kubectl label po wordpress-manual creation_method=manual # добавить метки
+kubectl label po wordpress-v2 env=debug --overwrite #изменить метку
+kubectl create -f wordpress-manual-with-labels.yaml -n dev-namespace # создание пода в пространстве имен
+kubectl get po -n dev-namespace --show-labels
+kubectl delete po -l creation_method=manual #удалить поды с лэйблом manual
+kubectl delete ns stage-namespace # удалить все поды в пространстве имен
+etcdctl endpoint status --cert="/etc/kubernetes/pki/etcd/peer.crt" --key="/etc/kubernetes/pki/etcd/peer.key" --cacert="/etc/kubernetes/pki/etcd/ca.crt" --endpoints=https://192.168.32.67:2379 -w table
+etcdctl --cert="/etc/kubernetes/pki/etcd/peer.crt" --key="/etc/kubernetes/pki/etcd/peer.key" --cacert="/etc/kubernetes/pki/etcd/ca.crt" --endpoints=https://192.168.32.67:2379 member list
 #####################################################
 #создание нового токена для присоединения нод
 #####################################################
@@ -43,4 +52,5 @@ kubectl get pod -n rook-ceph
 kubectl apply -f cluster.yaml # поправить dataDirHostPath: /data
 kubectl apply -f .storageclass.yaml
 kubectl get sc
-kubectl apply -f dashboard.yaml # дашбоард Ceph через LB 
+kubectl apply -f dashboard.yaml # дашбоард Ceph через LB
+kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
